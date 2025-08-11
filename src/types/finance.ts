@@ -36,4 +36,5 @@ export interface SummaryResponse {
   net: number;
   byCategory: Array<{ categoryId: string; categoryName: string; total: number }>;
   byMonth: Array<{ month: string; income: number; expense: number; net: number }>;
+  byDay: Array<{ day: string; income: number; expense: number; net: number }>;
 }

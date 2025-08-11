@@ -1,73 +1,169 @@
-# Welcome to your Lovable project
+# DompetKu Cerdas - Personal Finance Dashboard
 
-## Project info
+Aplikasi dashboard keuangan pribadi untuk mencatat pemasukan dan pengeluaran dengan fitur kategori, tag, grafik tren, dan ekspor CSV.
 
-**URL**: https://lovable.dev/projects/64da7654-b4cf-4921-b204-f3c2fb4f9505
+## 🚀 Fitur
 
-## How can I edit this code?
+- 📊 Dashboard dengan ringkasan keuangan
+- 💰 Catat pemasukan dan pengeluaran
+- 🏷️ Kategori dan tag untuk organisasi
+- 📈 Grafik tren bulanan
+- 📋 Tabel transaksi dengan filter
+- 📤 Ekspor data ke CSV
+- 🌙 Mode gelap/terang
+- 📱 Responsive design
 
-There are several ways of editing your application.
+## 🛠️ Tech Stack
 
-**Use Lovable**
+### Frontend
+- React 18 + TypeScript
+- Vite untuk build tool
+- Tailwind CSS + shadcn/ui
+- React Router untuk routing
+- React Query untuk state management
+- Recharts untuk grafik
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/64da7654-b4cf-4921-b204-f3c2fb4f9505) and start prompting.
+### Backend
+- Next.js 15 + TypeScript
+- Prisma ORM
+- MySQL database
+- REST API
 
-Changes made via Lovable will be committed automatically to this repo.
+## 📦 Instalasi
 
-**Use your preferred IDE**
+### Prerequisites
+- Node.js 18+
+- MySQL database
+- npm atau yarn
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+### 1. Clone Repository
+```bash
+git clone <repository-url>
+cd dompetku-cerdas
 ```
 
-**Edit a file directly in GitHub**
+### 2. Setup Database
+```bash
+# Masuk ke direktori backend
+cd finance-backend
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+# Install dependencies
+npm install
 
-**Use GitHub Codespaces**
+# Setup database (generate client, push schema, seed data)
+npm run db:setup
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### 3. Setup Frontend
+```bash
+# Kembali ke root directory
+cd ..
 
-## What technologies are used for this project?
+# Install dependencies
+npm install
+```
 
-This project is built with:
+## 🚀 Menjalankan Aplikasi
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### Development Mode
 
-## How can I deploy this project?
+1. **Jalankan Backend** (Terminal 1):
+```bash
+cd finance-backend
+npm run dev
+```
+Backend akan berjalan di `http://localhost:3000`
 
-Simply open [Lovable](https://lovable.dev/projects/64da7654-b4cf-4921-b204-f3c2fb4f9505) and click on Share -> Publish.
+2. **Jalankan Frontend** (Terminal 2):
+```bash
+npm run dev
+```
+Frontend akan berjalan di `http://localhost:8080`
 
-## Can I connect a custom domain to my Lovable project?
+### Production Build
 
-Yes, you can!
+1. **Build Backend**:
+```bash
+cd finance-backend
+npm run build
+npm start
+```
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+2. **Build Frontend**:
+```bash
+npm run build
+npm run preview
+```
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+## 🔧 Konfigurasi
+
+### Environment Variables
+
+**Backend** (`finance-backend/.env`):
+```env
+DATABASE_URL="mysql://username:password@localhost:3306/dompetku_cerdas"
+```
+
+**Frontend** (`.env`):
+```env
+VITE_API_BASE="http://localhost:3000"
+```
+
+## 📊 Database Schema
+
+Aplikasi menggunakan MySQL dengan schema berikut:
+- `User` - Data pengguna
+- `Category` - Kategori transaksi (Pemasukan/Pengeluaran)
+- `Tag` - Tag untuk organisasi transaksi
+- `Transaction` - Data transaksi
+- `TransactionTag` - Relasi many-to-many transaksi dan tag
+
+## 🎯 Penggunaan
+
+1. **Login**: Masukkan nama dan email untuk masuk
+2. **Dashboard**: Lihat ringkasan keuangan bulanan
+3. **Tambah Transaksi**: Klik tombol "+" untuk mencatat transaksi baru
+4. **Filter**: Gunakan dropdown untuk filter berdasarkan bulan dan jenis
+5. **Ekspor**: Klik tombol "Ekspor CSV" untuk download data
+
+## 🐛 Troubleshooting
+
+### Masalah CORS
+- Pastikan backend berjalan di port 3000
+- Frontend menggunakan proxy Vite untuk development
+- Cek konfigurasi CORS di `finance-backend/next.config.ts`
+
+### Database Connection
+- Pastikan MySQL berjalan
+- Cek `DATABASE_URL` di `.env` backend
+- Jalankan `npm run db:setup` untuk setup database
+
+### Port Conflicts
+- Backend: 3000
+- Frontend: 8080
+- Pastikan port tidak digunakan aplikasi lain
+
+## 📝 Scripts
+
+### Backend Scripts
+- `npm run dev` - Development server
+- `npm run build` - Build production
+- `npm run db:setup` - Setup database lengkap
+- `npm run db:seed` - Seed data sample
+
+### Frontend Scripts
+- `npm run dev` - Development server
+- `npm run build` - Build production
+- `npm run preview` - Preview production build
+
+## 🤝 Contributing
+
+1. Fork repository
+2. Buat feature branch
+3. Commit changes
+4. Push ke branch
+5. Buat Pull Request
+
+## 📄 License
+
+MIT License

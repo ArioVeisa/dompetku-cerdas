@@ -11,9 +11,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { Download, PlusCircle } from "lucide-react";
+import { Download, PlusCircle, LogOut, User } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { TxType } from "@/types/finance";
+import { useNavigate } from "react-router-dom";
 
 const useMonths = (allMonths: string[]) => {
   const sorted = useMemo(() => [...allMonths].sort(), [allMonths]);
@@ -24,8 +25,15 @@ const useMonths = (allMonths: string[]) => {
 const Index = () => {
   const qc = useQueryClient();
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [typeFilter, setTypeFilter] = useState<TxType | undefined>(undefined);
+
+  // Get current user
+  const currentUser = useMemo(() => {
+    const userStr = localStorage.getItem("authUser");
+    return userStr ? JSON.parse(userStr) : null;
+  }, []);
 
   const { data: categories = [] } = useQuery({ queryKey: ["categories"], queryFn: api.listCategories });
   const { data: tags = [] } = useQuery({ queryKey: ["tags"], queryFn: api.listTags });
@@ -40,12 +48,32 @@ const Index = () => {
 
   const { data: transactions = [], isLoading } = useQuery({ queryKey: ["transactions", month, typeFilter], queryFn: () => api.listTransactions({ month, type: typeFilter }) });
 
+  const handleLogout = async () => {
+    try {
+      await api.logout();
+      localStorage.removeItem("authUser");
+      toast({ title: "Logout berhasil", description: "Anda telah keluar dari aplikasi" });
+      navigate("/login", { replace: true });
+    } catch (error) {
+      console.error("Logout error:", error);
+      // Tetap logout meski API error
+      localStorage.removeItem("authUser");
+      navigate("/login", { replace: true });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-10 backdrop-blur supports-[backdrop-filter]:bg-background/80 border-b">
         <div className="container mx-auto py-3 flex items-center justify-between">
-          <h1 className="text-xl sm:text-2xl font-bold">Dasbor Keuangan Pribadi</h1>
+          <h1 className="text-xl sm:text-2xl font-bold">Dasboard Keuangan Pribadi</h1>
           <div className="flex items-center gap-2">
+            {/* User info */}
+            <div className="hidden sm:flex items-center gap-2 px-3 py-1 bg-muted rounded-lg">
+              <User className="h-4 w-4" />
+              <span className="text-sm font-medium">{currentUser?.name || "User"}</span>
+            </div>
+            
             <Button variant="outline" onClick={async () => {
               const blob = await api.exportCsv();
               const url = URL.createObjectURL(blob);
@@ -87,6 +115,10 @@ const Index = () => {
               </DialogContent>
             </Dialog>
             <ThemeToggle />
+            <Button variant="outline" onClick={handleLogout}>
+              <LogOut className="h-4 w-4" />
+              <span className="ml-2 hidden sm:inline">Logout</span>
+            </Button>
           </div>
         </div>
       </header>
