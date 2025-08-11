@@ -1,6 +1,7 @@
 # DompetKu Cerdas - Personal Finance Dashboard
 
 Aplikasi dashboard keuangan pribadi untuk mencatat pemasukan dan pengeluaran dengan fitur kategori, tag, grafik tren, dan ekspor CSV.
+<img width="1458" height="838" alt="image" src="https://github.com/user-attachments/assets/1ad7ce40-5bf8-4386-b33d-d5b79e697993" />
 
 ## 🚀 Fitur
 
